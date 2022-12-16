@@ -18,7 +18,7 @@ st.set_page_config(
 ### Import Dataframe
 # ======================================
 
-df = pd.read_csv("../repos/zomato.csv")
+df = pd.read_csv("repos/zomato.csv")
 df1 = clean_code(df)
 df2 = df1.copy()
 
