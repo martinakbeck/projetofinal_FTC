@@ -8,8 +8,8 @@ from folium.plugins import MarkerCluster
 import time
 
 st.set_page_config(
-    page_title="Home",
-    page_icon="🏠",
+    page_title="Fome Zero",
+    page_icon="🍽️",
     layout='wide'
 )
 
@@ -18,7 +18,7 @@ st.set_page_config(
 ### Import Dataframe
 # ======================================
 
-df = pd.read_csv("repos/zomato.csv")
+df = pd.read_csv("../repos/zomato.csv")
 df1 = clean_code(df)
 df2 = df1.copy()
 
@@ -85,58 +85,19 @@ with tab1:
     top_rest = st.slider('Quantidade de restaurantes:', 0, 20, 10)  
 
     with st.container():
-        df_aux = (df1.loc[:, ['restaurant_id', 'city', 'country_code']]
-                  .groupby('city')
-                  .count()
-                  .sort_values('restaurant_id', ascending = False)
-                  .reset_index())
 
-        df_top = df_aux.head(top_rest)
-
-        fig = (px.bar( df_top, x='city', y='restaurant_id', 
-                      color='city', 
-                      title=f'Top {top_rest} Cidades com mais Restaurantes na Base de Dados', 
-                      text='restaurant_id', 
-                      labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'} ))
-
+        fig = grafico_cidade_restaurante(df1, top_rest)
         st.plotly_chart(fig, use_container_width=True)
 
     with st.container():
         col1, col2 = st.columns(2)
 
         with col1:
-            df_aux = (df1.loc[df1['aggregate_rating'] > 4, ['city', 'restaurant_id', 'country_code']]
-                      .groupby('city')
-                      .count()
-                      .sort_values('restaurant_id', ascending = False)
-                      .reset_index())
-
-            df_top = df_aux.head(top_rest)
-
-            fig = (px.bar(df_top, x='city', y='restaurant_id', 
-                          color='city', 
-                          title=f'Top {top_rest} Cidades com Restaurantes com média de avaliação acima de 4', 
-                          text='restaurant_id', 
-                          labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'}))
-
+            fig = grafico_media_quatro(df1, top_rest)
             st.plotly_chart(fig, use_container_width=True) 
 
         with col2:
-            df_aux = (df1.loc[df1['aggregate_rating'] < 2.5, ['city', 'restaurant_id']]
-                      .groupby('city')
-                      .count()
-                      .sort_values('restaurant_id', ascending = False)
-                      .reset_index())
-
-            df_top = df_aux.head(top_rest)
-
-
-            fig = (px.bar(df_top, x='city', y='restaurant_id', 
-                          color='city', 
-                          title=f'Top {top_rest} Cidades com Restaurantes com média de avaliação abaixo de 2.5', 
-                          text='restaurant_id', 
-                          labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'}))
-
+            fig = grafico_media_dois(df1, top_rest)
             st.plotly_chart(fig, use_container_width=True) 
 
 
@@ -177,7 +138,9 @@ with tab2:
         st.plotly_chart(fig, use_container_width=True)
 
     with st.container():
+        
         df_sem_cidade_duplicada = df1.drop_duplicates('city')
+        
         df1_cidade_pais = (df_sem_cidade_duplicada.loc[:, ['city', 'country_code']]
                         .groupby('country_code')
                         .count()

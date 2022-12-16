@@ -169,3 +169,59 @@ def grafico_media_pais(df1, coluna):
                   labels={coluna: 'Quantidade de Avaliações', 'country_code': 'Países'}, 
                   title='Média de Avaliações por País'))
     return fig
+
+# gráfico restaurantes com média acima de 4
+def grafico_media_quatro(df1, top_rest):
+    df_aux = (df1.loc[df1['aggregate_rating'] > 4, ['city', 'restaurant_id', 'country_code']]
+              .groupby('city')
+              .count()
+              .sort_values('restaurant_id', ascending = False)
+              .reset_index())
+
+    df_top = df_aux.head(top_rest)
+
+    fig = (px.bar(df_top, x='city', y='restaurant_id', 
+                  color='city', 
+                  title=f'Top {top_rest} Cidades com Restaurantes com média de avaliação acima de 4', 
+                  text='restaurant_id', 
+                  labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'}))
+    return fig
+
+#gráfico restaurantes com médica abaixo de 2.5
+def grafico_media_dois(df1, top_rest):
+    df_aux = (df1.loc[df1['aggregate_rating'] < 2.5, ['city', 'restaurant_id']]
+              .groupby('city')
+              .count()
+              .sort_values('restaurant_id', ascending = False)
+              .reset_index())
+
+    df_top = df_aux.head(top_rest)
+
+
+    fig = (px.bar(df_top, x='city', y='restaurant_id', 
+                  color='city', 
+                  title=f'Top {top_rest} Cidades com Restaurantes com média de avaliação abaixo de 2.5', 
+                  text='restaurant_id', 
+                  labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'}))
+    return fig
+
+
+# gráfico cidaddes com mais restaurantes
+def grafico_cidade_restaurante(df1, top_rest):
+
+    df_aux = (df1.loc[:, ['restaurant_id', 'city', 'country_code']]
+              .groupby('city')
+              .count()
+              .sort_values('restaurant_id', ascending = False)
+              .reset_index())
+
+    df_top = df_aux.head(top_rest)
+
+    fig = (px.bar( df_top, x='city', y='restaurant_id', 
+                  color='city', 
+                  title=f'Top {top_rest} Cidades com mais Restaurantes na Base de Dados', 
+                  text='restaurant_id', 
+                  labels={'restaurant_id': 'Quantidade de Restaurantes', 'city': 'Cidades'} ))
+    return fig
+
+
