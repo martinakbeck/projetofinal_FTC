@@ -7,6 +7,11 @@ import folium
 from folium.plugins import MarkerCluster
 import time
 
+st.set_page_config(
+    page_title="Home",
+    page_icon="🏠",
+    layout='wide'
+)
 
 # ======================================
 ### Import Dataframe
