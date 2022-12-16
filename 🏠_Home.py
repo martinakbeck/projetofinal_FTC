@@ -20,6 +20,7 @@ st.set_page_config(
 
 df = pd.read_csv("repos/zomato.csv")
 df1 = clean_code(df)
+df2 = df1.copy()
 
 # ======================================
 ### Sidebar
@@ -306,16 +307,16 @@ with tab5:
         st.markdown('### Números da plataforma')
         col1, col2, col3, col4 = st.columns(4)
 
-        restaurantes_unicos = metricas_gerais(df1, 'restaurant_id')
+        restaurantes_unicos = metricas_gerais(df2, 'restaurant_id')
         col1.metric('Restaurantes Cadastrados', restaurantes_unicos)
 
-        paises_unicos = metricas_gerais(df1, 'country_code')
+        paises_unicos = metricas_gerais(df2, 'country_code')
         col2.metric('Países Cadastrados', paises_unicos)
 
-        cidades_unicas = metricas_gerais(df1, 'city')
+        cidades_unicas = metricas_gerais(df2, 'city')
         col3.metric('Cidades Cadastradas', cidades_unicas)
 
-        tipos_culinarios = metricas_gerais(df1, 'cuisines')
+        tipos_culinarios = metricas_gerais(df2, 'cuisines')
         col4.metric('Tipos de Culinárias', tipos_culinarios)
 
 
