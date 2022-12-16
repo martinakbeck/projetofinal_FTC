@@ -75,27 +75,10 @@ st.markdown('### Encontre o seu Restaurante preferido!')
 
 
     
-tab1, tab2 = st.tabs(["🎲 Números", "🗺️ Mapa"])
+tab1, tab2 = st.tabs(["🗺️ Mapa", "🎲 Números"])
 
 
-with tab1:
-    col1, col2 = st.columns(2)
-        
-    restaurantes_unicos = metricas_gerais(df1, 'restaurant_id')
-    col1.metric('Restaurantes Cadastrados', restaurantes_unicos)
-
-    paises_unicos = metricas_gerais(df1, 'country_code')
-    col1.metric('Países Cadastrados', paises_unicos)
-
-    cidades_unicas = metricas_gerais(df1, 'city')
-    col2.metric('Cidades Cadastradas', cidades_unicas)
-
-    tipos_culinarios = metricas_gerais(df1, 'cuisines')
-    col2.metric('Tipos de Culinárias', tipos_culinarios)
-
-
-
-with tab2:   
+with tab1:   
 
     st.markdown( '## Mapa' )
     with st.spinner('Carregando mapa...'):
@@ -110,6 +93,22 @@ with tab2:
                 popup=location_info['restaurant_name'], icon= folium.Icon(color='lightgray', icon='home', prefix='fa') ).add_to( cluster )
 
         folium_static(map_)    
+ 
+
+with tab2:
+    col1, col2 = st.columns(2)
+        
+    restaurantes_unicos = metricas_gerais(df1, 'restaurant_id')
+    col1.metric('Restaurantes Cadastrados', restaurantes_unicos)
+
+    paises_unicos = metricas_gerais(df1, 'country_code')
+    col1.metric('Países Cadastrados', paises_unicos)
+
+    cidades_unicas = metricas_gerais(df1, 'city')
+    col2.metric('Cidades Cadastradas', cidades_unicas)
+
+    tipos_culinarios = metricas_gerais(df1, 'cuisines')
+    col2.metric('Tipos de Culinárias', tipos_culinarios)
 
             
 
