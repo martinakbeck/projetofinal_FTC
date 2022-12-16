@@ -18,7 +18,7 @@ st.set_page_config(
 ### Import Dataframe
 # ======================================
 
-df = pd.read_csv("repos/zomato.csv")
+df = pd.read_csv("../repos/zomato.csv")
 df1 = clean_code(df)
 df2 = df1.copy()
 
@@ -39,7 +39,7 @@ st.sidebar.markdown('# Fitros')
 countries_list = df1['country_code'].unique()
 
 countries = st.sidebar.container()
-all = st.sidebar.checkbox("Selecionar todos", value=True)
+all = st.sidebar.checkbox("Selecionar todos", value=False)
  
 if all:
     selected_options = countries.multiselect("Escolha os Paises que Deseja visualizar os Restaurantes:", countries_list, countries_list)
@@ -208,33 +208,27 @@ with tab2:
 # VISÃO TIPOS CULINÁRIOS
 #==========================
 with tab3:
-    col1_filtro, col2_filtro = st.columns(2)
-    with col1_filtro:
-        top_rest = st.slider('Quantidade de restaurantes:', 0, 20, 7)  
 
-        
-    with col2_filtro:
-        cuisines_list = df1['cuisines'].unique()
+    cuisines_list = df1['cuisines'].unique()
 
-        cuisines = st.container()
-        selected_cuisines = (cuisines.multiselect("Escolha os tipos culinários:",cuisines_list,
-                                                  default=['Italian', 'Japanese', 'American', 'Brazilian', 'Indian', 'Arabian', 'BBQ' ] ))
-        
-        #========== Ligar Filtro =============
-        linhas_selecionadas = df1['cuisines'].isin(selected_cuisines)
-        df1 = df1.loc[linhas_selecionadas, :]
+    cuisines = st.container()
+    selected_cuisines = (cuisines.multiselect("Escolha os tipos culinários:",cuisines_list,
+                                              default=['Italian', 'Japanese', 'American', 'Brazilian', 'Indian', 'Arabian', 'BBQ' ] ))
+
+    #========== Ligar Filtro =============
+    linhas_selecionadas = df1['cuisines'].isin(selected_cuisines)
+    df1 = df1.loc[linhas_selecionadas, :]
 
     with st.container():
 
         col1, col2 = st.columns(2)
 
         with col1:        
-            fig = grafico_top_culinaria(df1, top_rest, 'Melhores', top_asc=False)
-            st.plotly_chart(fig, use_container_width=True) 
-
+            fig = grafico_top_culinario(df1, 'Melhores', top_asc=False)
+            st.plotly_chart(fig, use_container_width=True)
         with col2:
-            fig = grafico_top_culinaria(df1, top_rest, 'Piores', top_asc=True)
-            st.plotly_chart(fig, use_container_width=True) 
+            fig = grafico_top_culinario(df1,'Piores', top_asc=True)
+            st.plotly_chart(fig, use_container_width=True)
 
 
     with st.container():

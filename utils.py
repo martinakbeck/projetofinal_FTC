@@ -124,10 +124,7 @@ def media_culinaria(df1, tipo):
 #==================================
 
 #gráfico top tipos culinários
-def grafico_top_culinaria(df1, top_rest, tipo, top_asc):
-    '''
-        
-    '''
+def grafico_top_culinario(df1, palavra, top_asc):
     
     df_aux = (df1.loc[:, ['aggregate_rating', 'cuisines']]
               .groupby('cuisines')
@@ -142,21 +139,20 @@ def grafico_top_culinaria(df1, top_rest, tipo, top_asc):
         linhas_selecionadas = df_aux['aggregate_rating'] > 0
         df_aux = df_aux.loc[linhas_selecionadas, :].reset_index()
 
-
         fig = (px.bar(df_aux, x='cuisines', y='aggregate_rating', 
-                      title=f'Top {top_rest} {tipo} Tipos Culinários', 
+                      title=f'Top {palavra} Tipos Culinários', 
                       color = 'cuisines',
                       text='aggregate_rating', 
                       labels={'aggregate_rating' : 'Média avaliações', 'cuisines' : 'Tipos Culinários'}))
         return fig
     else:
-
         fig = (px.bar(df_aux, x='cuisines', y='aggregate_rating', 
-                      title=f'Top {top_rest} {tipo} Tipos Culinários', 
+                      title=f'Top {palavra} Tipos Culinários', 
                       color = 'cuisines',
                       text='aggregate_rating', 
                       labels={'aggregate_rating' : 'Média avaliações', 'cuisines' : 'Tipos Culinários'}))
         return fig
+    return fig
 
     
 # gráfico média por país    
