@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 #import dataframe
-df = pd.read_csv("../repos/zomato.csv")
+df = pd.read_csv("repos/zomato.csv")
 
 df1 = clean_code(df)
 
